@@ -25,8 +25,8 @@ public class PlayerController : MonoBehaviour
         _camera.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset,
             transform.position.z);
         _camera.transform.parent = transform;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     private void Update()
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
             movement.y -= gravityScale * Time.deltaTime;
         }
 
-        _characterController.Move(movement);
+        //_characterController.Move(movement);
 
         if(_camera != null)
         {
