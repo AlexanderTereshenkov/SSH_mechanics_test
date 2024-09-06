@@ -12,6 +12,8 @@ public class DecompileComputer : MonoBehaviour, IInteractible
     private int _position = 0;
     private PasswordGenerator _passwordGenerator;
     private SymbolCheckingBlock _checkingBlock;
+    private Regex _letters = new Regex(@"^[a-z]");
+    private Regex _digits = new Regex(@"^[0-9]");
 
     private void Start()
     {
@@ -19,10 +21,7 @@ public class DecompileComputer : MonoBehaviour, IInteractible
         _checkingBlock = new();
         _correctPassword = _passwordGenerator.GeneratePassword(passwordLen);
 
-        var letters = new Regex(@"^[a-z]");
-        var digits = new Regex(@"^[0-9]");
-
-        if (letters.IsMatch(_correctPassword))
+        if (_letters.IsMatch(_correctPassword))
         {
             computerUI.LettersBlock = computerUI.SetFirstBlock(
                 _passwordGenerator.GetFormattedString(_passwordGenerator.IncludedLetters)
@@ -32,7 +31,7 @@ public class DecompileComputer : MonoBehaviour, IInteractible
                 );
 
         }
-        else if ((digits.IsMatch(_correctPassword)))
+        else if ((_digits.IsMatch(_correctPassword)))
         {
             computerUI.NumbersBlock = 
                 computerUI.SetFirstBlock(_passwordGenerator.GetFormattedString(_passwordGenerator.IncludedNumbers));
@@ -55,20 +54,21 @@ public class DecompileComputer : MonoBehaviour, IInteractible
 
     private IEnumerator CheckPasswordCoroutine(string password)
     {
-        yield return new WaitForSeconds(1);
         while (_position < password.Length)
         {
-            ChangeUI(_correctPassword, true);
+            ChangeUI(_correctPassword, 0);
             yield return new WaitForSeconds(0.5f);
             if (!_checkingBlock.CheckPassword(password, _correctPassword, _position))
             {
-                ChangeUI(_correctPassword, false);
+                ChangeUI(_correctPassword, 2);
                 yield return new WaitForSeconds(0.5f);
-                Debug.Log("WROOOONG   " + password[_position]);
+                ChangeUI(_correctPassword, 1);
                 _position = 0;
                 yield break;
             }
-            ChangeUI(_correctPassword, false);
+            ChangeUI(_correctPassword, 3);
+            yield return new WaitForSeconds(0.8f);
+            ChangeUI(_correctPassword, 1);
             yield return new WaitForSeconds(0.5f);
             _position++;
             yield return new WaitForSeconds(1);
@@ -79,17 +79,15 @@ public class DecompileComputer : MonoBehaviour, IInteractible
 
     private bool CheckIfDigit(char elem)
     {
-        var digits = new Regex(@"^[0-9]");
-        return digits.IsMatch(elem.ToString());
+        return _digits.IsMatch(elem.ToString());
     }
 
     private bool CheckIfLeter(char elem)
     {
-        var letter = new Regex(@"^[a-z]");
-        return letter.IsMatch(elem.ToString());
+        return _letters.IsMatch(elem.ToString());
     }
 
-    private void ChangeUI(string password, bool state)
+    private void ChangeUI(string password, int state)
     {
         if (CheckIfDigit(password[_position]))
         {

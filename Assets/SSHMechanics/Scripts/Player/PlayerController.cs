@@ -17,14 +17,15 @@ public class PlayerController : MonoBehaviour
     private Vector2 _input;
     private Camera _camera;
     private float _rotationX;
+    private bool _isLookEnabled = false;
 
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
         _camera = Camera.main;
-        _camera.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset,
-            transform.position.z);
-        _camera.transform.parent = transform;
+        //_camera.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset,
+        //    transform.position.z);
+        //_camera.transform.parent = transform;
         //Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
     }
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
         //_characterController.Move(movement);
 
-        if(_camera != null)
+        if(_camera != null && _isLookEnabled)
         {
             _rotationX += -Input.GetAxis("Mouse Y") * mouseSens;
             _rotationX = Mathf.Clamp(_rotationX, -maxLookAngle, maxLookAngle);
@@ -54,6 +55,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             Interact();
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            ToggleLook();
         }
 
     }
@@ -69,5 +75,10 @@ public class PlayerController : MonoBehaviour
                 interactible.Interact();
             }
         }
+    }
+
+    private void ToggleLook()
+    {
+        _isLookEnabled = !_isLookEnabled;
     }
 }
