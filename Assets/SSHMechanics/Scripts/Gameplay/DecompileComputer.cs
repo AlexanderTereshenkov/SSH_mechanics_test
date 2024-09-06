@@ -16,6 +16,8 @@ public class DecompileComputer : MonoBehaviour, IInteractible
     private SymbolCheckingBlock _checkingBlock;
     private Regex _letters = new Regex(@"^[a-z]");
     private Regex _digits = new Regex(@"^[0-9]");
+    private bool _isPasswordCorrect;
+    private CheckingBlockUI _activeBlock;
 
     private void Start()
     {
@@ -41,6 +43,8 @@ public class DecompileComputer : MonoBehaviour, IInteractible
                 computerUI.SetSecondBlock(_passwordGenerator.GetFormattedString(_passwordGenerator.IncludedLetters));
         }
 
+        _activeBlock = GetActiveBlock(_correctPassword, _position);
+
     }
 
     public void Interact()
@@ -50,12 +54,21 @@ public class DecompileComputer : MonoBehaviour, IInteractible
 
     public void CheckPassword()
     {
+        if ((_isPasswordCorrect))
+        {
+            return;
+        }
         var inputString = computerUI.InputString;
+        
         StartCoroutine(CheckPasswordCoroutine(inputString));
     }
 
     private IEnumerator CheckPasswordCoroutine(string password)
     {
+        
+        ChangeBlockState(_activeBlock, CheckingBlockUI.CheckingStates.Standart);
+        yield return new WaitForSeconds(waitingTime);
+
         while (_position < password.Length)
         {
             if(_position >= _correctPassword.Length)
@@ -65,22 +78,24 @@ public class DecompileComputer : MonoBehaviour, IInteractible
             }
 
             computerUI.SetCurrentSymbol(password[_position].ToString());
-            ChangeUI(_correctPassword, 0);
+
+            _activeBlock = GetActiveBlock(_correctPassword, _position);
+
+            ChangeBlockState(_activeBlock, CheckingBlockUI.CheckingStates.Checking);
             yield return new WaitForSeconds(waitingTime);
 
             if (!_checkingBlock.CheckPassword(password, _correctPassword, _position))
             {
-                ChangeUI(_correctPassword, 2);
+                ChangeBlockState(_activeBlock, CheckingBlockUI.CheckingStates.Wrong);
                 yield return new WaitForSeconds(waitingTime);
-                ChangeUI(_correctPassword, 1);
                 _position = 0;
                 yield break;
             }
 
-            ChangeUI(_correctPassword, 3);
+            ChangeBlockState(_activeBlock, CheckingBlockUI.CheckingStates.Right);
             yield return new WaitForSeconds(waitingTime);
 
-            ChangeUI(_correctPassword, 1);
+            ChangeBlockState(_activeBlock, CheckingBlockUI.CheckingStates.Standart);
             yield return new WaitForSeconds(waitingTime);
 
             _position++;
@@ -90,6 +105,12 @@ public class DecompileComputer : MonoBehaviour, IInteractible
 
         _position = 0;
         computerUI.SetCurrentSymbol(string.Empty);
+        if(password.Length == _correctPassword.Length)
+        {
+            _isPasswordCorrect = true;
+            computerUI.SetCorrectPassword();
+        }
+
     }
 
     private bool CheckIfDigit(char elem)
@@ -102,16 +123,23 @@ public class DecompileComputer : MonoBehaviour, IInteractible
         return _letters.IsMatch(elem.ToString());
     }
 
-    private void ChangeUI(string password, int state)
+    private void ChangeBlockState(CheckingBlockUI activeBlock, CheckingBlockUI.CheckingStates state)
     {
-        if (CheckIfDigit(password[_position]))
+        activeBlock.SetCheckingState(state);
+    }
+
+    private CheckingBlockUI GetActiveBlock(string password, int position)
+    {
+        CheckingBlockUI activeBlock = default;
+        if (CheckIfDigit(password[position]))
         {
-            computerUI.NumbersBlock.CheckState(state);
+            activeBlock = computerUI.NumbersBlock;
         }
         else
         {
-            computerUI.LettersBlock.CheckState(state);
+            activeBlock = computerUI.LettersBlock;
         }
+        return activeBlock;
     }
 
 }

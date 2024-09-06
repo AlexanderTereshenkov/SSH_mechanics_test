@@ -23,27 +23,31 @@ public class CheckingBlockUI : MonoBehaviour
         return this;
     }
 
-    //0 - checking
-    //1 - standart
-    //2 - wrong
-    //3 - right
-    public void CheckState(int state)
+    public void SetCheckingState(CheckingStates state)
     {
         switch (state)
         {
-            case 0:
+            case CheckingStates.Checking:
                 background.color = checkColor;
                 break;
-            case 1:
+            case CheckingStates.Standart:
                 background.color = _standartColor;
                 break;
-            case 2:
+            case CheckingStates.Wrong:
                 background.color = wrongColor;
                 break;
-            case 3:
+            case CheckingStates.Right:
                 background.color = rightColor;
                 break;
         }
+    }
+
+    public enum CheckingStates
+    {
+        Checking,
+        Standart,
+        Right,
+        Wrong
     }
 
 }
