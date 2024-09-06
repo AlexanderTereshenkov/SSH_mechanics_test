@@ -6,6 +6,8 @@ public class DecompileComputer : MonoBehaviour, IInteractible
 {
     [Range(5, 8)]
     [SerializeField] private int passwordLen;
+    [SerializeField] private float waitingTime;
+
     [SerializeField] private ComputerUI computerUI;
 
     private string _correctPassword;
@@ -56,28 +58,38 @@ public class DecompileComputer : MonoBehaviour, IInteractible
     {
         while (_position < password.Length)
         {
+            if(_position >= _correctPassword.Length)
+            {
+                computerUI.SetCurrentSymbol("OUT OF BOUNDS");
+                yield break;
+            }
+
             computerUI.SetCurrentSymbol(password[_position].ToString());
             ChangeUI(_correctPassword, 0);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(waitingTime);
+
             if (!_checkingBlock.CheckPassword(password, _correctPassword, _position))
             {
                 ChangeUI(_correctPassword, 2);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(waitingTime);
                 ChangeUI(_correctPassword, 1);
                 _position = 0;
-                computerUI.SetCurrentSymbol(string.Empty);
                 yield break;
             }
+
             ChangeUI(_correctPassword, 3);
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(waitingTime);
+
             ChangeUI(_correctPassword, 1);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(waitingTime);
+
             _position++;
             computerUI.SetCurrentSymbol(string.Empty);
-            yield return new WaitForSeconds(1);
             
         }
+
         _position = 0;
+        computerUI.SetCurrentSymbol(string.Empty);
     }
 
     private bool CheckIfDigit(char elem)

@@ -33,7 +33,7 @@ public class PasswordGenerator
 
     public string GeneratePassword(int len)
     {
-        IncludedLetters = _letters.Substring(_letters.IndexOf(_letters[Random.Range(0, _letters.Length / 2)]), 3);
+        IncludedLetters = _letters.Substring(_letters.IndexOf(_letters[Random.Range(0, _letters.Length / 2)]), 4);
         IncludedNumbers = _numbers.Substring(_numbers.IndexOf(_numbers[Random.Range(0, _numbers.Length / 2)]), 4);
 
         _alphabet = IncludedNumbers + IncludedLetters;

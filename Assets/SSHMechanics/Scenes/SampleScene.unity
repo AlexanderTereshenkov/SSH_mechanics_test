@@ -633,6 +633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passwordLen: 6
+  waitingTime: 0.3
   computerUI: {fileID: 357294193}
 --- !u!65 &357294189
 BoxCollider:
