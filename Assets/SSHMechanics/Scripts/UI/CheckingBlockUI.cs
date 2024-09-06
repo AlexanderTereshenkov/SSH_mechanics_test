@@ -1,9 +1,11 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CheckingBlockUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI commentsText;
+    [SerializeField] private Image background;
     [SerializeField] private Color checkColor;
     [SerializeField] private Color wrongColor;
     [SerializeField] private Color rightColor;
@@ -12,7 +14,7 @@ public class CheckingBlockUI : MonoBehaviour
 
     private void Awake()
     {
-        _standartColor = commentsText.color;
+        _standartColor = background.color;
     }
 
     public CheckingBlockUI SetCommentsText(string text)
@@ -30,16 +32,16 @@ public class CheckingBlockUI : MonoBehaviour
         switch (state)
         {
             case 0:
-                commentsText.color = checkColor;
+                background.color = checkColor;
                 break;
             case 1:
-                commentsText.color = _standartColor;
+                background.color = _standartColor;
                 break;
-            case 2: 
-                commentsText.color = wrongColor;
+            case 2:
+                background.color = wrongColor;
                 break;
             case 3:
-                commentsText.color = rightColor;
+                background.color = rightColor;
                 break;
         }
     }

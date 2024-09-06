@@ -56,6 +56,7 @@ public class DecompileComputer : MonoBehaviour, IInteractible
     {
         while (_position < password.Length)
         {
+            computerUI.SetCurrentSymbol(password[_position].ToString());
             ChangeUI(_correctPassword, 0);
             yield return new WaitForSeconds(0.5f);
             if (!_checkingBlock.CheckPassword(password, _correctPassword, _position))
@@ -64,6 +65,7 @@ public class DecompileComputer : MonoBehaviour, IInteractible
                 yield return new WaitForSeconds(0.5f);
                 ChangeUI(_correctPassword, 1);
                 _position = 0;
+                computerUI.SetCurrentSymbol(string.Empty);
                 yield break;
             }
             ChangeUI(_correctPassword, 3);
@@ -71,6 +73,7 @@ public class DecompileComputer : MonoBehaviour, IInteractible
             ChangeUI(_correctPassword, 1);
             yield return new WaitForSeconds(0.5f);
             _position++;
+            computerUI.SetCurrentSymbol(string.Empty);
             yield return new WaitForSeconds(1);
             
         }

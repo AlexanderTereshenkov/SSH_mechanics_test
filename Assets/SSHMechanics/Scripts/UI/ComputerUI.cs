@@ -6,6 +6,7 @@ public class ComputerUI : MonoBehaviour
     [SerializeField] private CheckingBlockUI firstBlock;
     [SerializeField] protected CheckingBlockUI secondBlock;
     [SerializeField] private TMP_InputField inputField;
+    [SerializeField] private TextMeshProUGUI currentSymbol;
 
     public CheckingBlockUI LettersBlock
     {
@@ -37,6 +38,11 @@ public class ComputerUI : MonoBehaviour
     {
         var block = secondBlock.SetCommentsText(text);
         return block;
+    }
+
+    public void SetCurrentSymbol(string symbol)
+    {
+        currentSymbol.text = "Current symbol: " + symbol;
     }
 
 }
