@@ -145,7 +145,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6088057372538120875}
-  - component: {fileID: 2007394910785591353}
+  - component: {fileID: 7532584853291560904}
+  - component: {fileID: 662598023350948690}
   m_Layer: 0
   m_Name: CodePlane
   m_TagString: Untagged
@@ -175,7 +176,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0.01331, y: 0.09}
   m_SizeDelta: {x: 2.6366, y: 0.6813}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2007394910785591353
+--- !u!114 &7532584853291560904
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,14 +185,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 4726206399116979354}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc9bd10fb8c4e0f4cb6617d07060d558, type: 3}
+  m_Script: {fileID: 11500000, guid: 04ee3e33cf4e60e4e9f93b729183145f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   commentsText: {fileID: 2367123267437014562}
   background: {fileID: 1817837980561374530}
-  checkColor: {r: 1, g: 0.8868392, b: 0.39811313, a: 1}
-  wrongColor: {r: 1, g: 0.51223344, b: 0.4509434, a: 1}
-  rightColor: {r: 0.5566037, g: 1, b: 0.67981595, a: 1}
+  checkColor: {r: 1, g: 0.9474267, b: 0.42075467, a: 1}
+  wrongColor: {r: 1, g: 0.35283017, b: 0.35283017, a: 1}
+  rightColor: {r: 0.4145211, g: 1, b: 0.390566, a: 0}
+--- !u!114 &662598023350948690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4726206399116979354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0ee17ad2264fde438a34310ade7dcec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  symbols: abcdefghijklmnopqrstuvwxyz
+  decompileBlockType: 0
+  blockUI: {fileID: 7532584853291560904}
 --- !u!1 &5866438240506564532
 GameObject:
   m_ObjectHideFlags: 0
