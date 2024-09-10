@@ -72,9 +72,9 @@ public class PasswordGenerator
                 text = IncludedNumbers;
                 break;
             case DecompileBlock.BlockType.SpecialSymbols:
-                return IncludedSpecialSymbols;
+                return "// " + IncludedSpecialSymbols;
         }
-        return "#" + text[0] + "-" + text[text.Length - 1];
+        return "//" + text[0] + "-" + text[text.Length - 1];
     }
 
     public void AddSymbols(string symbols, DecompileBlock.BlockType type)
@@ -114,7 +114,6 @@ public class PasswordGenerator
         {
             return null;
         }
-        Debug.Log(currentString);
         int firstIndex = currentString.IndexOf(currentString[Random.Range(0, currentString.Length / 2)]);
         if(firstIndex + length > currentString.Length)
         {

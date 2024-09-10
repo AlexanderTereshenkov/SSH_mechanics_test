@@ -28,11 +28,14 @@ public class DecompileProcessManager : MonoBehaviour
         {
             _passwordGenerator.AddSymbols(block.BlockSymbols, block.DecompileBlockType);
             _blocks.Add(block.DecompileBlockType, block);
-            block.BlockUI.SetCommentsText(_passwordGenerator.GetFormattedString(block.DecompileBlockType));
         }
 
         CorrectPassword = _passwordGenerator.GeneratePassword(passwordLength, passwordSymbolsInterval);
-        Debug.Log(CorrectPassword);
+
+        foreach (var block in blocks)
+        {
+            block.BlockUI.SetCommentsText(_passwordGenerator.GetFormattedString(block.DecompileBlockType));
+        }
 
     }
 
